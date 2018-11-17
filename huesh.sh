@@ -173,4 +173,13 @@ then
     data="{\"on\":true, \"bri\":$brightness}"
 
     send_state_update_request "$light_id" "$data"
+elif [ "$1" == "set-on" ]
+then
+    assure_authenticated
+    light_id="$2"
+    on_state="$3"
+
+    data="{\"on\":$on_state}"
+
+    send_state_update_request "$light_id" "$data"
 fi
