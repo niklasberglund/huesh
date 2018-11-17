@@ -82,6 +82,17 @@ function send_put_request
     printf "$response_json"
 }
 
+function send_state_update_request
+{
+    light_id="$1"
+    data="$2"
+
+    bridge_ip_address=$(get_ip_address)
+    token=$(get_token)
+
+    send_put_request "$bridge_ip_address" "$token" "lights/$light_id/state" "$data"
+}
+
 function assure_authenticated
 {
     token=$(get_token)
@@ -132,12 +143,7 @@ then
     saturation="$4"
     brightness="$5"
 
-    bridge_ip_address=$(get_ip_address)
-    token=$(get_token)
-
     data="{\"on\":true, \"sat\":$saturation, \"bri\":$brightness,\"hue\":$hue}"
 
-    set_state_response=$(send_put_request "$bridge_ip_address" "$token" "lights/$light_id/state" "$data")
-
-    printf "$set_state_response\n"
+    send_state_update_request "$light_id" "$data"
 fi
