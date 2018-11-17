@@ -146,4 +146,31 @@ then
     data="{\"on\":true, \"sat\":$saturation, \"bri\":$brightness,\"hue\":$hue}"
 
     send_state_update_request "$light_id" "$data"
+elif [ "$1" == "set-hue" ]
+then
+    assure_authenticated
+    light_id="$2"
+    hue="$3"
+
+    data="{\"on\":true, \"hue\":$hue}"
+
+    send_state_update_request "$light_id" "$data"
+elif [ "$1" == "set-saturation" ]
+then
+    assure_authenticated
+    light_id="$2"
+    saturation="$3"
+
+    data="{\"on\":true, \"sat\":$saturation}"
+
+    send_state_update_request "$light_id" "$data"
+elif [ "$1" == "set-brightness" ]
+then
+    assure_authenticated
+    light_id="$2"
+    brightness="$5"
+
+    data="{\"on\":true, \"bri\":$brightness}"
+
+    send_state_update_request "$light_id" "$data"
 fi
