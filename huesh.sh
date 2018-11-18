@@ -166,7 +166,7 @@ then
         exit 1
     fi
 
-    printf "IP address: $bridge_ip_address\ntoken: $token\n"
+    printf "Discovered Hue bridge with IP address: $bridge_ip_address\nToken: $token\n"
 
     if [ ! -z "$token" ]
     then
