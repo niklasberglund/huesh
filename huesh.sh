@@ -161,6 +161,11 @@ then
 
     token=$(pair_with_bridge "$bridge_ip_address")
 
+    if [ $? == 1 ]
+    then
+        exit 1
+    fi
+
     printf "IP address: $bridge_ip_address\ntoken: $token\n"
 
     if [ ! -z "$token" ]
