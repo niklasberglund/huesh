@@ -25,7 +25,7 @@ client_name="huesh-client"
 
 function print_usage
 {
-    usage_text=$(sed -n -e '/^#\>/p' "$script_path" | sed 's/^#\>$//' | sed 's/#\> //')
+    usage_text=$(sed -n -e '/^#\>/p' "$script_path" | sed 's/^#\>//')
     printf "$usage_text\n\n"
 }
 
