@@ -1,7 +1,33 @@
 #!/bin/sh
 
+#> Usage: huesh.sh <command> [<args>]
+#>
+#> Tool for controlling Hue lights.
+#>
+#> EXAMPLES:
+#>     huesh.sh auth # Authenticates with Hue bridge
+#>     huesh.sh list-lights # List all lights in your Hue system
+#>     huesh.sh set-brightness 1 20000 # Set brightness level for light with id 1
+#>
+#> COMMANDS:
+#>     auth             Authenticate with a Hue bridge on the same network.
+#>     list-lights      List all Lights in your Hue system.
+#>     list-scenes      List all scenes in your Hue system.
+#>     set-hsl          Set hue, saturation and brightness for a specific light.
+#>     set-hue          Set hue for a specific light.
+#>     set-saturation   Set saturation for a specific light.
+#>     set-brightness   Set brightness for a specific light.
+#>
+
 config_file_path="$HOME/.hueshconfig"
+script_path="$0"
 client_name="huesh-client"
+
+function print_usage
+{
+    usage_text=$(sed -n -e '/^#\>/p' "$script_path" | sed 's/^#\>$//' | sed 's/#\> //')
+    printf "$usage_text\n\n"
+}
 
 function discover_bridge
 {
@@ -103,6 +129,21 @@ function assure_authenticated
         exit 1
     fi
 }
+
+
+while getopts "h" option
+do
+    case $option in
+    h)
+        print_usage
+        exit 0
+        ;;
+    \?)
+        print_usage
+        exit 1
+        ;;
+    esac
+done
 
 
 if [ "$1" == "auth" ]
