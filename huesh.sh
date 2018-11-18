@@ -37,7 +37,7 @@ function discover_bridge
 
     if [ "$bridge_count" == "0" ]
     then
-        (>&2 printf "No Hue bridge found\n")
+        (>&2 printf "No Hue bridge found on your network.\n")
         exit 1
     fi
 
