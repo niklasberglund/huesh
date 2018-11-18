@@ -5,7 +5,9 @@ A shell script for controlling Hue lights.
 ## Usage
 First you need to push button on the Hue bridge, run `huesh.sh pair` and then you're good to go. Credentials are stored on disk so you only need to run `pair` once.
 
-Find out id:s of your lights by running `huesh.sh list-lights` and then for example change brightness by running `huesh.sh set-brightness 1 20000` where 1 is the id of the light and 20000 is the desired brightness.
+Find out id:s of your lights by running `huesh.sh list-lights` and then for example change brightness by running `huesh.sh set-brightness 1 100` where 1 is the id of the light and 100 is the desired brightness.
+
+![Screenshot](screenshot.png "Usage example screenshot")
 
 ## Help text
 ```
@@ -16,7 +18,7 @@ Tool for controlling Hue lights.
 EXAMPLES:
     huesh.sh pair # Pair with Hue bridge
     huesh.sh list-lights # List all lights in your Hue system
-    huesh.sh set-brightness 1 20000 # Set brightness level for light with id 1
+    huesh.sh set-brightness 1 100 # Set brightness level for light with id 1
 
 COMMANDS:
     help             Prints these usage instructions.

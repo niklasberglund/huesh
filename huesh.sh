@@ -7,7 +7,7 @@
 #> EXAMPLES:
 #>     huesh.sh pair # Pair with Hue bridge
 #>     huesh.sh list-lights # List all lights in your Hue system
-#>     huesh.sh set-brightness 1 20000 # Set brightness level for light with id 1
+#>     huesh.sh set-brightness 1 100 # Set brightness level for light with id 1
 #>
 #> COMMANDS:
 #>     help             Prints these usage instructions.
