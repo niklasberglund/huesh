@@ -132,9 +132,18 @@ then
 for key in jsonDict: print key + ":" +  jsonDict[key]["name"];')
 
     printf "$formatted_lights_list\n"
+elif [ "$1" == "list-scenes" ]
+then
+    assure_authenticated
+    bridge_ip_address=$(get_ip_address)
+    token=$(get_token)
 
-    #printf "$bridge_ip_address $token\n"
-    #printf "$lights_response_json\n"
+    scenes_response_json=$(send_get_request "$bridge_ip_address" "$token" "scenes")
+
+    formatted_scenes_list=$(printf "$scenes_response_json" | python -c 'import json,sys;jsonDict=json.load(sys.stdin);
+for key in jsonDict: print key + ":" +  jsonDict[key]["name"];')
+
+    printf "$formatted_scenes_list\n"
 elif [ "$1" == "set-hsl" ]
 then
     assure_authenticated
