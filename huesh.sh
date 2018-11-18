@@ -5,13 +5,13 @@
 #> Tool for controlling Hue lights.
 #>
 #> EXAMPLES:
-#>     huesh.sh auth # Authenticates with Hue bridge
+#>     huesh.sh pair # Pair with Hue bridge
 #>     huesh.sh list-lights # List all lights in your Hue system
 #>     huesh.sh set-brightness 1 20000 # Set brightness level for light with id 1
 #>
 #> COMMANDS:
 #>     help             Prints these usage instructions.
-#>     auth             Authenticate with a Hue bridge on the same network. Note that you must push the button on Hue bridge before authenticating.
+#>     pair             Pair with a Hue bridge on the same network. Note that you must push the button on Hue bridge before pairing.
 #>     list-lights      List all Lights in your Hue system.
 #>     list-scenes      List all scenes in your Hue system.
 #>     set-hsl          Set hue, saturation and brightness for a specific light.
@@ -46,7 +46,7 @@ function discover_bridge
     printf "$bridge_address"
 }
 
-function authenticate_with_bridge
+function pair_with_bridge
 {
     ip_address="$1"
 
@@ -120,13 +120,13 @@ function send_state_update_request
     send_put_request "$bridge_ip_address" "$token" "lights/$light_id/state" "$data"
 }
 
-function assure_authenticated
+function assure_paired
 {
     token=$(get_token)
 
     if [ -z "$token" ]
     then
-        (>&2 printf "You must first authenticate by pushing the button on your Hue bridge then run this script and pass \"auth\" argument.\n")
+        (>&2 printf "You must first pair by pushing the button on your Hue bridge then run this script and pass \"pair\" argument.\n")
         exit 1
     fi
 }
@@ -150,7 +150,7 @@ done
 if [ "$1" == "help" ]
 then
     print_usage
-elif [ "$1" == "auth" ]
+elif [ "$1" == "pair" ]
 then
     bridge_ip_address=$(discover_bridge)
 
@@ -159,21 +159,21 @@ then
         exit 1
     fi
 
-    token=$(authenticate_with_bridge "$bridge_ip_address")
+    token=$(pair_with_bridge "$bridge_ip_address")
 
     printf "IP address: $bridge_ip_address\ntoken: $token\n"
 
     if [ ! -z "$token" ]
     then
-        printf "Successfully discovered and authorized with Hue bridge. Storing credentials in $config_file_path\n"
+        printf "Successfully discovered and paired with Hue bridge. Storing credentials in $config_file_path\n"
         save_config "$bridge_ip_address" "$token"
     else
-        (>&2 printf "Found a Hue bridge but can't connect to it. Make sure you push the button on your Hue bridge before running \"auth\".")
+        (>&2 printf "Found a Hue bridge but can't connect to it. Make sure you push the button on your Hue bridge before running \"pair\".")
         exit 1
     fi
 elif [ "$1" == "list-lights" ]
 then
-    assure_authenticated
+    assure_paired
     bridge_ip_address=$(get_ip_address)
     token=$(get_token)
 
@@ -185,7 +185,7 @@ for key in jsonDict: print key + ":" +  jsonDict[key]["name"];')
     printf "$formatted_lights_list\n"
 elif [ "$1" == "list-scenes" ]
 then
-    assure_authenticated
+    assure_paired
     bridge_ip_address=$(get_ip_address)
     token=$(get_token)
 
@@ -197,7 +197,7 @@ for key in jsonDict: print key + ":" +  jsonDict[key]["name"];')
     printf "$formatted_scenes_list\n"
 elif [ "$1" == "set-hsl" ]
 then
-    assure_authenticated
+    assure_paired
     light_id="$2"
     hue="$3"
     saturation="$4"
@@ -208,7 +208,7 @@ then
     send_state_update_request "$light_id" "$data"
 elif [ "$1" == "set-hue" ]
 then
-    assure_authenticated
+    assure_paired
     light_id="$2"
     hue="$3"
 
@@ -217,7 +217,7 @@ then
     send_state_update_request "$light_id" "$data"
 elif [ "$1" == "set-saturation" ]
 then
-    assure_authenticated
+    assure_paired
     light_id="$2"
     saturation="$3"
 
@@ -226,7 +226,7 @@ then
     send_state_update_request "$light_id" "$data"
 elif [ "$1" == "set-brightness" ]
 then
-    assure_authenticated
+    assure_paired
     light_id="$2"
     brightness="$5"
 
@@ -235,7 +235,7 @@ then
     send_state_update_request "$light_id" "$data"
 elif [ "$1" == "set-on" ]
 then
-    assure_authenticated
+    assure_paired
     light_id="$2"
     on_state="$3"
 
