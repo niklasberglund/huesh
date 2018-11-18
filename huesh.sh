@@ -1,24 +1,24 @@
 #!/bin/sh
 
-#> Usage: huesh.sh <command> [<args>]
-#>
-#> Tool for controlling Hue lights.
-#>
-#> EXAMPLES:
-#>     huesh.sh pair # Pair with Hue bridge
-#>     huesh.sh list-lights # List all lights in your Hue system
-#>     huesh.sh set-brightness 1 100 # Set brightness level for light with id 1
-#>
-#> COMMANDS:
-#>     help             Prints these usage instructions.
-#>     pair             Pair with a Hue bridge on the same network. Note that you must push the button on Hue bridge before pairing.
-#>     list-lights      List all Lights in your Hue system.
-#>     list-scenes      List all scenes in your Hue system.
-#>     set-hsl          Set hue, saturation and brightness for a specific light.
-#>     set-hue          Set hue for a specific light.
-#>     set-saturation   Set saturation for a specific light.
-#>     set-brightness   Set brightness for a specific light.
-#>
+#? Usage: huesh.sh <command> [<args>]
+#?
+#? Tool for controlling Hue lights.
+#?
+#? EXAMPLES:
+#?     huesh.sh pair # Pair with Hue bridge
+#?     huesh.sh list-lights # List all lights in your Hue system
+#?     huesh.sh set-brightness 1 100 # Set brightness level for light with id 1
+#?
+#? COMMANDS:
+#?     help             Prints these usage instructions.
+#?     pair             Pair with a Hue bridge on the same network. Note that you must push the button on Hue bridge before pairing.
+#?     list-lights      List all Lights in your Hue system.
+#?     list-scenes      List all scenes in your Hue system.
+#?     set-hsl          Set hue, saturation and brightness for a specific light.
+#?     set-hue          Set hue for a specific light.
+#?     set-saturation   Set saturation for a specific light.
+#?     set-brightness   Set brightness for a specific light.
+#?
 
 config_file_path="$HOME/.hueshconfig"
 script_path="$0"
@@ -26,7 +26,7 @@ client_name="huesh-client"
 
 function print_usage
 {
-    usage_text=$(sed -n -e '/^#\>/p' "$script_path" | sed 's/^#\>//')
+    usage_text=$(sed -n -e '/^#\?/p' "$script_path" | sed 's/^#\?//')
     printf "$usage_text\n\n"
 }
 
