@@ -37,7 +37,7 @@ function discover_bridge
 
     if [ "$bridge_count" == "0" ]
     then
-        printf "No Hue bridge found\n"
+        (>&2 printf "No Hue bridge found\n")
         exit 1
     fi
 
@@ -56,7 +56,7 @@ function authenticate_with_bridge
 
     if [ "$has_error" == "True" ]
     then
-        printf "Failed to get token from Hue bridge at $ip_address.\n"
+        (>&2 printf "Failed to get token from Hue bridge at $ip_address.\n")
         exit 1
     else
         token=$(printf "$response_json" | python -c "import json,sys;obj=json.load(sys.stdin);print obj[0]['success']['username'];")
@@ -126,7 +126,7 @@ function assure_authenticated
 
     if [ -z "$token" ]
     then
-        printf "You must first authenticate by pushing the button on your Hue bridge then run this script and pass \"auth\" argument.\n"
+        (>&2 printf "You must first authenticate by pushing the button on your Hue bridge then run this script and pass \"auth\" argument.\n")
         exit 1
     fi
 }
@@ -168,7 +168,7 @@ then
         printf "Successfully discovered and authorized with Hue bridge. Storing credentials in $config_file_path\n"
         save_config "$bridge_ip_address" "$token"
     else
-        printf "Found a Hue bridge but can't connect to it. Make sure you push the button on your Hue bridge before running \"auth\"."
+        (>&2 printf "Found a Hue bridge but can't connect to it. Make sure you push the button on your Hue bridge before running \"auth\".")
         exit 1
     fi
 elif [ "$1" == "list-lights" ]
