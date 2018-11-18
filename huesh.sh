@@ -20,9 +20,10 @@
 #?     set-brightness   Set brightness for a specific light.
 #?
 
-config_file_path="$HOME/.hueshconfig"
+CONFIG_FILE_PATH="$HOME/.hueshconfig"
+CLIENT_NAME="huesh-client"
+
 script_path="$0"
-client_name="huesh-client"
 
 function print_usage
 {
@@ -50,7 +51,7 @@ function pair_with_bridge
 {
     ip_address="$1"
 
-    response_json=$(curl -s -X POST -H "Content-Type: application/json" -d "{\"devicetype\":\"$client_name\"}" "http://$ip_address/api/")
+    response_json=$(curl -s -X POST -H "Content-Type: application/json" -d "{\"devicetype\":\"$CLIENT_NAME\"}" "http://$ip_address/api/")
 
     has_error=$(printf "$response_json" | python -c "import json,sys;obj=json.load(sys.stdin);print obj[0].has_key('error');")
 
@@ -69,19 +70,19 @@ function save_config
     ip_address="$1"
     token="$2"
 
-    printf "# Persistent storage for huesh.sh Hue bridge credentials\n$ip_address,$token" > "$config_file_path"
+    printf "# Persistent storage for huesh.sh Hue bridge credentials\n$ip_address,$token" > "$CONFIG_FILE_PATH"
 }
 
 function get_ip_address
 {
-    config_line=$(awk 'NR==2' "$config_file_path")
+    config_line=$(awk 'NR==2' "$CONFIG_FILE_PATH")
     ip_address=$(printf "$config_line" | cut -d, -f1)
     printf "$ip_address"
 }
 
 function get_token
 {
-    config_line=$(awk 'NR==2' "$config_file_path")
+    config_line=$(awk 'NR==2' "$CONFIG_FILE_PATH")
     token=$(printf "$config_line" | cut -d, -f2)
     printf "$token"
 }
@@ -177,7 +178,7 @@ then
 
     if [ ! -z "$token" ]
     then
-        printf "Successfully discovered and paired with Hue bridge. Storing credentials in $config_file_path\n"
+        printf "Successfully discovered and paired with Hue bridge. Storing credentials in $CONFIG_FILE_PATH\n"
         save_config "$bridge_ip_address" "$token"
     else
         (>&2 printf "Found a Hue bridge but can't connect to it. Make sure you push the button on your Hue bridge before running \"pair\".")
