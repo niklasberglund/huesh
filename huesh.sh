@@ -106,7 +106,7 @@ function send_put_request
 
     response_json=$(curl -s -X PUT -H "Content-Type: application/json" -d "$data" "http://$bridge_ip_address/api/$token/$endpoint")
 
-    printf "$response_json"
+    return $?
 }
 
 function send_state_update_request
@@ -118,6 +118,13 @@ function send_state_update_request
     token=$(get_token)
 
     send_put_request "$bridge_ip_address" "$token" "lights/$light_id/state" "$data"
+
+    if [ $? == 0 ]
+    then
+        printf "OK\n"
+    else
+        exit 1
+    fi
 }
 
 function assure_paired
@@ -233,7 +240,7 @@ elif [ "$1" == "set-brightness" ]
 then
     assure_paired
     light_id="$2"
-    brightness="$5"
+    brightness="$3"
 
     data="{\"on\":true, \"bri\":$brightness}"
 
