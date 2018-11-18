@@ -10,6 +10,7 @@
 #>     huesh.sh set-brightness 1 20000 # Set brightness level for light with id 1
 #>
 #> COMMANDS:
+#>     help             Prints these usage instructions.
 #>     auth             Authenticate with a Hue bridge on the same network. Note that you must push the button on Hue bridge before authenticating.
 #>     list-lights      List all Lights in your Hue system.
 #>     list-scenes      List all scenes in your Hue system.
@@ -146,7 +147,10 @@ do
 done
 
 
-if [ "$1" == "auth" ]
+if [ "$1" == "help" ]
+then
+    print_usage
+elif [ "$1" == "auth" ]
 then
     bridge_ip_address=$(discover_bridge)
     token=$(authenticate_with_bridge "$bridge_ip_address")
