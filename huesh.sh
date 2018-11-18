@@ -56,7 +56,7 @@ function pair_with_bridge
 
     if [ "$has_error" == "True" ]
     then
-        (>&2 printf "Failed to get token from Hue bridge at $ip_address.\n")
+        (>&2 printf "Failed to get token from Hue bridge at $ip_address. Make sure you push the button on your Hue bridge before running \"pair\" command.\n")
         exit 1
     else
         token=$(printf "$response_json" | python -c "import json,sys;obj=json.load(sys.stdin);print obj[0]['success']['username'];")
