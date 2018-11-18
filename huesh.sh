@@ -153,6 +153,12 @@ then
 elif [ "$1" == "auth" ]
 then
     bridge_ip_address=$(discover_bridge)
+
+    if [ $? == 1 ]
+    then
+        exit 1
+    fi
+
     token=$(authenticate_with_bridge "$bridge_ip_address")
 
     printf "IP address: $bridge_ip_address\ntoken: $token\n"
