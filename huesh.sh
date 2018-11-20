@@ -20,6 +20,8 @@
 #?     set-brightness   Set brightness for a specific light.
 #?
 
+set -e
+
 CONFIG_FILE_PATH="$HOME/.hueshconfig"
 CLIENT_NAME="huesh-client"
 
