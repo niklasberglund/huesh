@@ -210,6 +210,18 @@ then
 for key in jsonDict: print key + ":" +  jsonDict[key]["name"];')
 
     printf "$formatted_scenes_list\n"
+elif [ "$1" == "list-groups" ]
+then
+    assure_paired
+    bridge_ip_address=$(get_ip_address)
+    token=$(get_token)
+
+    groups_response_json=$(send_get_request "$bridge_ip_address" "$token" "groups")
+
+    formatted_groups_list=$(printf "$groups_response_json" | python -c 'import json,sys;jsonDict=json.load(sys.stdin);
+for key in jsonDict: print key + ":" +  jsonDict[key]["name"];')
+
+    printf "$formatted_groups_list\n"
 elif [ "$1" == "set-hsl" ]
 then
     assure_paired
